@@ -1,0 +1,2 @@
+## Solidity Smart Contract Course
+### This repo is a way to log my progress as I learn solidity and smart contract development. The course I am following is [Solidity 101](https://updraft.cyfrin.io/courses)
