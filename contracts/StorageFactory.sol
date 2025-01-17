@@ -1,56 +1,39 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract SimpleStorage {
-    // Basic Types: boolean, uint, int, address, bytes
-    // visibility of this variable defaults to internal
-    uint256 myFavoriteNumber;
+// A better way to import since the file we import from can have several
+// contracts and thus importing only those needed is more efficient.
 
-    struct Person {
-        uint256 favoriteNumber;
-        string name;
-    }
-
-    // Person public brenda = Person(42, "Brenda");
-    //Dynamic Array - no value in square brackets
-    Person[] public listOfPeople;
-
-    // Mapping or Dictionary 
-    mapping(string => uint256) public nameToFavoriteNumber;
-
-
-    // Static Array - contains a value in square brackets
-    //Person [4] public listOfPeople;
-
-    function store(uint256 _favoriteNumber) public {
-        myFavoriteNumber = _favoriteNumber;
-    }
-
-    // view, pure
-    // keyword view is able to return the state of a variable 
-    // keyword pure only returns values but not the value of a state variable
-
-    function retrieve() public view returns(uint256) {
-        return myFavoriteNumber;
-    }
-
-    function addPerson(string memory _name, uint256 _favoriteNumber) public {
-        listOfPeople.push(Person(_favoriteNumber, _name));
-        nameToFavoriteNumber[_name] = _favoriteNumber;
-    }
-
-}
-
+import {SimpleStorage} from  "./SimpleStorage.sol";
 
 contract StorageFactory{
     // type visibility name
-    // variable that will hold the instance of the deployed contract
-    SimpleStorage public simpleStorage;
-
+    // An array that will hold instances of type SimpleStorage
+    SimpleStorage[] public listOfSimpleStorageContracts;
+    // Function is in charge of creating SimpleStorage Contracts and placing them in a list
     function createSimpleStorageContract() public {
         // Able to deploy SimpleStorage contract
         // The new keyword allows solidity to know to deploy a contract
-        simpleStorage = new SimpleStorage();
+        SimpleStorage newSimpleStorageContract = new SimpleStorage();
+        listOfSimpleStorageContracts.push(newSimpleStorageContract);
+    }
 
+    // This funtion is able to take a specific index where an instance of a SimpleStorage contract could exist,
+    // and then take in a new number.
+    // Once the instance of that contract is retrieved it can then use the functions from SimpleStorage Contract
+    // such as store() as used below. 
+    function sfStore(uint256 _simpleStorageIndex, uint256 _newSimpleStorgeNumber) public {
+        // Address
+        // ABI - Application Binary Interface
+        // retrieving a particular contract of type SimpleStorage from the given index
+        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[_simpleStorageIndex];
+        mySimpleStorage.store(_newSimpleStorgeNumber);
+
+    }
+    // In order to actually get the value that was stored we must use the retrieve function created over on 
+    // SimpleStorage contract.
+    function sfGet(uint256 _simpleStorageIndex) public view returns(uint256) {
+        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[_simpleStorageIndex];
+        return mySimpleStorage.retrieve();
     }
 }
