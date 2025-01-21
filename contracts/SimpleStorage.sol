@@ -21,8 +21,8 @@ contract SimpleStorage {
 
     // Static Array - contains a value in square brackets
     //Person [4] public listOfPeople;
-
-    function store(uint256 _favoriteNumber) public {
+    // addint the keyword virtual allows this function to be overridden 
+    function store(uint256 _favoriteNumber) public virtual {
         myFavoriteNumber = _favoriteNumber;
     }
 
