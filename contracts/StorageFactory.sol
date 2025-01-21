@@ -26,14 +26,12 @@ contract StorageFactory{
         // Address
         // ABI - Application Binary Interface
         // retrieving a particular contract of type SimpleStorage from the given index
-        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[_simpleStorageIndex];
-        mySimpleStorage.store(_newSimpleStorgeNumber);
+        listOfSimpleStorageContracts[_simpleStorageIndex].store(_newSimpleStorgeNumber);
 
     }
     // In order to actually get the value that was stored we must use the retrieve function created over on 
     // SimpleStorage contract.
     function sfGet(uint256 _simpleStorageIndex) public view returns(uint256) {
-        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[_simpleStorageIndex];
-        return mySimpleStorage.retrieve();
+        return listOfSimpleStorageContracts[_simpleStorageIndex].retrieve();
     }
 }
